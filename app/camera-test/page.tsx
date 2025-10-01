@@ -164,7 +164,8 @@ export default function CameraTestPage() {
                   </div>
                   <div>
                     <span className="font-medium">getUserMedia:</span>{' '}
-                    {navigator.mediaDevices?.getUserMedia
+                    {navigator.mediaDevices?.getUserMedia &&
+                    typeof navigator.mediaDevices.getUserMedia === 'function'
                       ? '✅ Available'
                       : '❌ Not Available'}
                   </div>
