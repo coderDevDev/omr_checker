@@ -65,7 +65,11 @@ export default function HomePage() {
 
       return { success: true, message: response.message };
     } catch (error) {
-      return { success: false, message: error.message };
+      return {
+        success: false,
+        message:
+          error instanceof Error ? error.message : 'Unknown error occurred'
+      };
     } finally {
       setProcessing(false);
       setProcessingProgress(0);
@@ -83,7 +87,11 @@ export default function HomePage() {
 
       return { success: true, message: 'Image processed successfully' };
     } catch (error) {
-      return { success: false, message: error.message };
+      return {
+        success: false,
+        message:
+          error instanceof Error ? error.message : 'Unknown error occurred'
+      };
     } finally {
       setProcessing(false);
       setProcessingProgress(0);
@@ -104,7 +112,11 @@ export default function HomePage() {
         message: `Processed ${response.total_processed} images successfully`
       };
     } catch (error) {
-      return { success: false, message: error.message };
+      return {
+        success: false,
+        message:
+          error instanceof Error ? error.message : 'Unknown error occurred'
+      };
     } finally {
       setProcessing(false);
       setProcessingProgress(0);
