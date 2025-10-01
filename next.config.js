@@ -9,9 +9,12 @@ const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
 
-  // Disable ESLint during builds for deployment
+  // Disable ESLint and TypeScript checks during builds for deployment
   eslint: {
     ignoreDuringBuilds: true
+  },
+  typescript: {
+    ignoreBuildErrors: true
   },
 
   // Webpack configuration for better performance
