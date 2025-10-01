@@ -52,7 +52,7 @@ export default function HomePage() {
     checkBackendHealth();
   }, []);
 
-  const handleTemplateUpload = useCallback(async templateFile => {
+  const handleTemplateUpload = useCallback(async (templateFile: File) => {
     try {
       setProcessing(true);
       setProcessingProgress(0);
@@ -72,7 +72,7 @@ export default function HomePage() {
     }
   }, []);
 
-  const handleSingleImageProcess = useCallback(async imageFile => {
+  const handleSingleImageProcess = useCallback(async (imageFile: File) => {
     try {
       setProcessing(true);
       setProcessingProgress(50);
@@ -90,7 +90,7 @@ export default function HomePage() {
     }
   }, []);
 
-  const handleBatchProcess = useCallback(async imageFiles => {
+  const handleBatchProcess = useCallback(async (imageFiles: File[]) => {
     try {
       setProcessing(true);
       setProcessingProgress(0);
