@@ -9,9 +9,13 @@
     "lint": "next lint",
     "build:production": "next build && next export",
     "build:no-lint": "ESLINT_NO_DEV_ERRORS=true next build",
+    "build:force": "SKIP_TYPE_CHECK=true npm run build",
     "deploy:vercel": "vercel --prod",
+    "deploy:vercel-force": "npm run build:force && vercel --prod",
     "deploy:netlify": "npm run build && netlify deploy --prod --dir=out",
-    "preview": "npm run build && npm run start"
+    "preview": "npm run build && npm run start",
+    "clean": "rm -rf .next out node_modules/.cache",
+    "deploy": "./deploy-vercel.sh"
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.5.10",
