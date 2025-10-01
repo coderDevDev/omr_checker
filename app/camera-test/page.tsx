@@ -8,8 +8,16 @@ export default function CameraTestPage() {
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<string>('Ready to test');
+  const [mounted, setMounted] = useState(false);
+
+  // Ensure component is mounted before accessing browser APIs
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const startCamera = async () => {
+    if (!mounted) return;
+
     try {
       setError(null);
       setStatus('Requesting camera access...');
@@ -20,7 +28,11 @@ export default function CameraTestPage() {
       }
 
       // Check if we're on HTTPS
-      if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
+      if (
+        typeof window !== 'undefined' &&
+        window.location.protocol !== 'https:' &&
+        window.location.hostname !== 'localhost'
+      ) {
         throw new Error('Camera access requires HTTPS or localhost');
       }
 
@@ -144,31 +156,48 @@ export default function CameraTestPage() {
                   Debug Information
                 </h2>
                 <div className="bg-gray-50 rounded-lg p-4 space-y-2 text-sm">
-                  <div>
-                    <span className="font-medium">Protocol:</span>{' '}
-                    {location.protocol}
-                  </div>
-                  <div>
-                    <span className="font-medium">Hostname:</span>{' '}
-                    {location.hostname}
-                  </div>
-                  <div>
-                    <span className="font-medium">User Agent:</span>{' '}
-                    {navigator.userAgent}
-                  </div>
-                  <div>
-                    <span className="font-medium">Media Devices API:</span>{' '}
-                    {navigator.mediaDevices
-                      ? '✅ Supported'
-                      : '❌ Not Supported'}
-                  </div>
-                  <div>
-                    <span className="font-medium">getUserMedia:</span>{' '}
-                    {navigator.mediaDevices?.getUserMedia &&
-                    typeof navigator.mediaDevices.getUserMedia === 'function'
-                      ? '✅ Available'
-                      : '❌ Not Available'}
-                  </div>
+                  {mounted ? (
+                    <>
+                      <div>
+                        <span className="font-medium">Protocol:</span>{' '}
+                        {typeof window !== 'undefined'
+                          ? window.location.protocol
+                          : 'N/A'}
+                      </div>
+                      <div>
+                        <span className="font-medium">Hostname:</span>{' '}
+                        {typeof window !== 'undefined'
+                          ? window.location.hostname
+                          : 'N/A'}
+                      </div>
+                      <div>
+                        <span className="font-medium">User Agent:</span>{' '}
+                        {typeof navigator !== 'undefined'
+                          ? navigator.userAgent
+                          : 'N/A'}
+                      </div>
+                      <div>
+                        <span className="font-medium">Media Devices API:</span>{' '}
+                        {typeof navigator !== 'undefined' &&
+                        navigator.mediaDevices
+                          ? '✅ Supported'
+                          : '❌ Not Supported'}
+                      </div>
+                      <div>
+                        <span className="font-medium">getUserMedia:</span>{' '}
+                        {typeof navigator !== 'undefined' &&
+                        navigator.mediaDevices?.getUserMedia &&
+                        typeof navigator.mediaDevices.getUserMedia ===
+                          'function'
+                          ? '✅ Available'
+                          : '❌ Not Available'}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="text-gray-500">
+                      Loading browser information...
+                    </div>
+                  )}
                 </div>
               </div>
 
